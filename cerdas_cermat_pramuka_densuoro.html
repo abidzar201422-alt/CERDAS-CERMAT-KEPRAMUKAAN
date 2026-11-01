@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b17">
+<title>Cerdas Cermat Pramuka DENSUORO</title>
+<style>
+:root{--bg:#071b17;--panel:#102b25;--panel2:#16382f;--green:#28d69a;--gold:#ffc857;--red:#ff657a;--text:#f3fff9;--muted:#a9c4b8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#174438 0,#071b17 48%,#04110e 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font-weight:800;color:#062018;background:var(--green);transition:.15s}button:hover{filter:brightness(1.08);transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}.secondary{background:#24483e;color:var(--text);border:1px solid #3a695b}.gold{background:var(--gold);color:#2a1b00}.danger{background:var(--red);color:#30050d}.ghost{background:transparent;color:var(--muted);border:1px solid #35584d}
+header{padding:18px 20px;border-bottom:1px solid #25483d;display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1200px;margin:auto}
+.brand{font-weight:1000;letter-spacing:1.5px}.brand span{color:var(--gold)}.tag{font-size:.75rem;color:var(--muted);letter-spacing:2px}
+main{max-width:1100px;margin:0 auto;padding:24px 18px 50px}.screen{display:none}.screen.active{display:block}
+.hero{text-align:center;padding:34px 15px 24px}.eyebrow{color:var(--green);font-weight:900;letter-spacing:3px;font-size:.78rem}.hero h1{font-size:clamp(2rem,7vw,4.5rem);line-height:1.02;margin:12px 0;background:linear-gradient(90deg,#fff,var(--green),var(--gold));background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:620px;margin:12px auto 24px}
+.panel{background:linear-gradient(145deg,rgba(22,56,47,.96),rgba(10,34,28,.96));border:1px solid #2b594b;border-radius:20px;padding:20px;box-shadow:0 18px 45px #0005}
+.setup-grid,.score-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{color:var(--muted);font-size:.85rem;font-weight:700}.field input,.field select{background:#071b17;color:white;border:1px solid #3a6255;border-radius:10px;padding:12px;min-width:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}.section-title{font-size:1.1rem;margin:0 0 14px}.team-card{background:#0a211b;border:1px solid #2b594b;border-radius:16px;padding:16px;text-align:center}.team-card .name{font-weight:900;color:var(--muted);font-size:.85rem}.team-card .score{font-size:2.5rem;font-weight:1000;color:var(--gold);font-variant-numeric:tabular-nums}
+.game-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.pill{background:#173d32;border:1px solid #3b6859;border-radius:999px;padding:7px 12px;color:var(--green);font-weight:800;font-size:.8rem}
+.question-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px}.question-card{min-height:330px;display:flex;flex-direction:column;justify-content:space-between}.q-meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:.85rem}.q-text{font-size:clamp(1.35rem,3vw,2rem);font-weight:850;line-height:1.3;margin:24px 0}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.option{background:#193e33;border:1px solid #3a6657;color:white;text-align:left;padding:14px;min-height:58px}.option .letter{color:var(--gold);margin-right:8px}.option.selected{outline:2px solid var(--gold);background:#34513c}.option.correct{background:#155d43;border-color:var(--green)}.option.wrong{background:#642c37;border-color:var(--red)}
+.side{display:flex;flex-direction:column;gap:12px}.timer-box{text-align:center}.timer{font-size:3rem;font-weight:1000;color:var(--gold);font-variant-numeric:tabular-nums}.timer.low{color:var(--red)}.turn-team{font-size:1.1rem;font-weight:900;color:var(--green);margin-top:5px}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:8px}.judge button{padding:14px 8px}.feedback{min-height:26px;color:var(--muted);font-size:.9rem;margin-top:12px}
+.progress{height:8px;background:#092019;border-radius:99px;overflow:hidden;margin-top:14px}.progress>div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0;transition:width .25s}
+.leader{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.result{text-align:center;padding:34px 20px}.winner{font-size:clamp(2rem,7vw,3.5rem);font-weight:1000;color:var(--gold);margin:10px 0}
+.small{font-size:.8rem;color:var(--muted)}.hidden{display:none!important}
+footer{text-align:center;color:#76978a;font-size:.75rem;padding:20px}
+@media(max-width:760px){.question-layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.side .judge-panel{grid-column:1/-1}.setup-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr}.question-card{min-height:0}.leader{gap:8px}.team-card{padding:12px}.team-card .score{font-size:2rem}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">DENSU<span>ORO</span></div><div class="tag">CERDAS CERMAT PRAMUKA</div></div><div class="pill">MODE 2 REGU</div></header>
+<main>
+<section id="home" class="screen active">
+ <div class="hero"><div class="eyebrow">TANTANGAN PENGETAHUAN KEPRAMUKAAN</div><h1>CERDAS CERMAT<br>PRAMUKA DENSUORO</h1><p>Uji kekompakan, kecepatan, dan pengetahuan regumu. Kumpulkan poin dan jadilah juara Scout Arena!</p><button onclick="showSetup()" style="min-width:190px">MULAI PERTANDINGAN →</button></div>
+ <div class="panel"><h2 class="section-title">FORMAT PERTANDINGAN</h2><div class="setup-grid"><div><b>⚔️ 2 Regu</b><p class="small">Dua tim bertanding bergantian.</p></div><div><b>🎯 3 Babak</b><p class="small">Wajib, rebutan, dan final.</p></div><div><b>⏱️ Timer</b><p class="small">Waktu menjawab setiap soal.</p></div><div><b>🏆 Papan Skor</b><p class="small">Nilai diperbarui oleh juri.</p></div></div></div>
+</section>
+
+<section id="setup" class="screen">
+ <div class="hero"><div class="eyebrow">PERSIAPAN LOMBA</div><h1>ATUR REGU</h1><p>Masukkan nama kedua regu sebelum pertandingan dimulai.</p></div>
+ <div class="panel"><div class="setup-grid">
+  <div class="field"><label for="team1">NAMA REGU 1</label><input id="team1" maxlength="24" value="Regu Garuda"></div>
+  <div class="field"><label for="team2">NAMA REGU 2</label><input id="team2" maxlength="24" value="Regu Elang"></div>
+  <div class="field"><label for="seconds">WAKTU MENJAWAB</label><select id="seconds"><option value="15">15 detik</option><option value="20" selected>20 detik</option><option value="30">30 detik</option></select></div>
+  <div class="field"><label for="roundMode">PAKET PERTANDINGAN</label><select id="roundMode"><option value="all">Semua babak</option><option value="quick">Pertandingan singkat</option></select></div>
+ </div><div class="actions"><button class="secondary" onclick="showScreen('home')">KEMBALI</button><button onclick="startGame()">MULAI LOMBA</button></div></div>
+</section>
+
+<section id="game" class="screen">
+ <div class="game-top"><button class="ghost" onclick="confirmExit()">← Keluar</button><div class="pill" id="roundLabel">BABAK 1</div><div class="pill" id="questionCount">SOAL 1</div></div>
+ <div class="leader" id="leaderboard"></div>
+ <div class="question-layout">
+  <div class="panel question-card">
+   <div><div class="q-meta"><span id="category">MATERI</span><span id="points">10 POIN</span></div><div class="q-text" id="question">Pertanyaan akan muncul di sini.</div><div class="options" id="options"></div><div class="feedback" id="feedback" aria-live="polite"></div></div>
+   <div><div class="progress"><div id="progressBar"></div></div><div class="small" style="margin-top:8px">Pilih jawaban, lalu juri menilai hasilnya.</div></div>
+  </div>
+  <aside class="side">
+   <div class="panel timer-box"><div class="small">WAKTU TERSISA</div><div class="timer" id="timer">20</div><div class="turn-team" id="turnTeam">Regu Garuda</div></div>
+   <div class="panel"><div class="small">PANDUAN JURI</div><p class="small">Jawaban benar menambah poin. Jawaban salah atau waktu habis tidak mendapat poin.</p><button class="secondary" style="width:100%" onclick="pauseTimer()" id="pauseBtn">JEDA TIMER</button></div>
+   <div class="panel judge-panel"><div class="small" style="margin-bottom:10px">PENILAIAN JURI</div><div class="judge"><button onclick="judge(true)" id="correctBtn" disabled>✓ BENAR</button><button class="danger" onclick="judge(false)" id="wrongBtn" disabled>✕ SALAH</button></div><button class="gold" style="width:100%;margin-top:9px" onclick="nextQuestion()" id="nextBtn" disabled>SOAL BERIKUTNYA →</button></div>
+  </aside>
+ </div>
+</section>
+
+<section id="result" class="screen">
+ <div class="panel result"><div class="eyebrow">PERTANDINGAN SELESAI</div><h1>HASIL AKHIR</h1><div class="winner" id="winner">JUARA!</div><p id="resultMessage" class="small"></p><div class="score-grid" id="finalScores" style="margin-top:24px"></div><div class="actions"><button onclick="showScreen('home')">MENU UTAMA</button><button class="secondary" onclick="showSetup()">MAIN LAGI</button></div></div>
+</section>
+</main>
+<footer>DENSUORO • Cerdas, tangkas, sportif, dan berjiwa Pramuka.</footer>
+<script>
+const bank = [
+ {cat:"Sejarah Pramuka",q:"Siapakah tokoh yang dikenal sebagai Bapak Pandu Sedunia?",a:["Robert Baden-Powell","Ki Hajar Dewantara","Soekarno","Sri Sultan Hamengkubuwono IX"],c:0},
+ {cat:"Sejarah Pramuka",q:"Tanggal berapa Hari Pramuka diperingati di Indonesia?",a:["14 Agustus","17 Agustus","20 Mei","28 Oktober"],c:0},
+ {cat:"Dasar Kepramukaan",q:"Apa kepanjangan dari Pramuka?",a:["Praja Muda Karana","Praja Mulia Karya","Pemuda Rajin Mandiri Kreatif","Putra Remaja Muda Karya"],c:0},
+ {cat:"Dasar Kepramukaan",q:"Apa lambang Gerakan Pramuka Indonesia?",a:["Tunas kelapa","Bintang","Burung garuda","Bunga melati"],c:0},
+ {cat:"Tri Satya",q:"Tri Satya merupakan janji dan kode kehormatan bagi anggota Pramuka. Berapa jumlah butir janjinya?",a:["Tiga","Dua","Lima","Sepuluh"],c:0},
+ {cat:"Dasa Darma",q:"Berapa jumlah butir Dasa Darma Pramuka?",a:["Sepuluh","Lima","Tiga","Dua belas"],c:0},
+ {cat:"Dasa Darma",q:"Bunyi Dasa Darma pertama adalah ...",a:["Takwa kepada Tuhan Yang Maha Esa","Cinta alam dan kasih sayang sesama manusia","Patriot yang sopan dan kesatria","Rela menolong dan tabah"],c:0},
+ {cat:"Sandi",q:"Sandi Morse menggunakan kombinasi tanda ...",a:["Titik dan garis","Angka dan warna","Panah dan lingkaran","Huruf dan gambar"],c:0},
+ {cat:"Semaphore",q:"Semaphore dalam kepramukaan umumnya menggunakan alat berupa ...",a:["Dua bendera kecil","Peluit dan tongkat","Kompas dan peta","Tali dan simpul"],c:0},
+ {cat:"Tali-temali",q:"Simpul yang biasa digunakan untuk menyambung dua tali yang sama besar adalah ...",a:["Simpul mati","Simpul pangkal","Simpul jangkar","Simpul tiang"],c:0},
+ {cat:"Perkemahan",q:"Alat untuk menentukan arah mata angin adalah ...",a:["Kompas","Peluit","Pelindung kepala","Peluit"],c:0},
+ {cat:"Pengetahuan Umum",q:"Apa nama organisasi kepanduan dunia yang dikenal dengan singkatan WOSM?",a:["World Organization of the Scout Movement","World Outdoor Student Mission","Worldwide Organization of School Members","World Office of Scout Management"],c:0},
+ {cat:"Sejarah Indonesia",q:"Siapakah tokoh yang dikenal sebagai Bapak Pramuka Indonesia?",a:["Sri Sultan Hamengkubuwono IX","Mohammad Hatta","Ki Hajar Dewantara","Jenderal Sudirman"],c:0},
+ {cat:"Kode Kehormatan",q:"Dwi Satya merupakan janji untuk golongan ...",a:["Siaga","Penggalang","Penegak","Pandega"],c:0},
+ {cat:"Kode Kehormatan",q:"Dwi Darma terdiri dari berapa butir?",a:["Dua","Tiga","Lima","Sepuluh"],c:0},
+ {cat:"Tali-temali",q:"Simpul pangkal sering digunakan sebagai awal ikatan pada ...",a:["Tongkat atau tiang","Kertas","Bendera yang dilipat","Kompas"],c:0},
+ {cat:"Perkemahan",q:"Kegiatan mendirikan tenda biasanya dilakukan saat ...",a:["Berkemah","Upacara penutupan saja","Membaca sandi","Latihan menyanyi"],c:0},
+ {cat:"Pengetahuan Umum",q:"Apa arti warna merah pada bendera Indonesia?",a:["Keberanian","Kesucian","Kesuburan","Persatuan"],c:0}
+];
+const roundsAll=[
+ {name:"BABAK 1 • WAJIB",type:"turn",count:4,points:10},
+ {name:"BABAK 2 • REBUTAN",type:"buzz",count:6,points:20},
+ {name:"BABAK 3 • FINAL",type:"turn",count:4,points:30}
+];
+const roundsQuick=[
+ {name:"BABAK 1 • WAJIB",type:"turn",count:2,points:10},
+ {name:"BABAK 2 • REBUTAN",type:"buzz",count:4,points:20}
+];
+let teams=[],scores=[0,0],rounds=[],roundIndex=0,questionIndex=0,turn=0,activeQuestion=null,selected=null,remaining=20,timerId=null,paused=false,locked=false,answered=false,questionPool=[];
+const $=id=>document.getElementById(id);
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active')}
+function showSetup(){showScreen('setup')}
+function startGame(){
+ teams=[$('team1').value.trim()||'Regu 1',$('team2').value.trim()||'Regu 2'];scores=[0,0];turn=0;roundIndex=0;questionIndex=0;
+ rounds=$('roundMode').value==='quick'?roundsQuick.map(x=>({...x})):roundsAll.map(x=>({...x}));
+ questionPool=[...bank].sort(()=>Math.random()-.5);showScreen('game');loadQuestion();
+}
+function currentRound(){return rounds[roundIndex]}
+function loadQuestion(){
+ clearInterval(timerId);selected=null;locked=false;answered=false;paused=false;
+ if(roundIndex>=rounds.length){finishGame();return}
+ const r=currentRound();if(questionIndex>=r.count){roundIndex++;questionIndex=0;loadQuestion();return}
+ activeQuestion={...questionPool[(roundIndex*7+questionIndex)%questionPool.length]};
+ // Acak posisi pilihan agar jawaban benar tidak selalu berada di pilihan A.
+ const shuffled=activeQuestion.a.map((answer,index)=>({answer,index})).sort(()=>Math.random()-.5);
+ activeQuestion.a=shuffled.map(item=>item.answer);
+ activeQuestion.c=shuffled.findIndex(item=>item.index===activeQuestion.c);
+ if(r.type==='turn')turn=(roundIndex+questionIndex)%2;
+ $('roundLabel').textContent=r.name;$('questionCount').textContent=`SOAL ${questionIndex+1} / ${r.count}`;
+ $('category').textContent=activeQuestion.cat;$('points').textContent=`${r.points} POIN`;
+ $('question').textContent=activeQuestion.q;$('feedback').textContent='';
+ $('options').innerHTML='';
+ activeQuestion.a.forEach((answer,i)=>{const b=document.createElement('button');b.className='option';b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span> ${escapeHtml(answer)}`;b.onclick=()=>selectOption(i);$('options').appendChild(b)});
+ $('turnTeam').textContent=currentRound().type==='buzz'?'KEDUA REGU • REBUTAN':teams[turn];
+ $('correctBtn').disabled=true;$('wrongBtn').disabled=true;$('nextBtn').disabled=true;
+ $('pauseBtn').disabled=false;$('pauseBtn').textContent='JEDA TIMER';
+ remaining=Number($('seconds').value);updateTimer();updateBoard();
+ $('progressBar').style.width=`${((questionIndex+(roundIndex===0?0:rounds[roundIndex-1]?.count||0))/(rounds.reduce((s,x)=>s+x.count,0)))*100}%`;
+ timerId=setInterval(tick,1000);
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function selectOption(i){if(locked||answered)return;selected=i;[...$('options').children].forEach((b,n)=>b.classList.toggle('selected',n===i));$('correctBtn').disabled=false;$('wrongBtn').disabled=false;$('feedback').textContent='Pilihan tercatat. Juri, silakan nilai jawaban.'}
+function tick(){if(paused||locked)return;remaining--;updateTimer();if(remaining<=0){clearInterval(timerId);locked=true;answered=true;$('feedback').textContent='Waktu habis! Tidak ada poin untuk soal ini.';$('correctBtn').disabled=true;$('wrongBtn').disabled=true;$('nextBtn').disabled=false;revealAnswer()}}
+function updateTimer(){$('timer').textContent=remaining;$('timer').classList.toggle('low',remaining<=5)}
+function pauseTimer(){if(locked)return;paused=!paused;$('pauseBtn').textContent=paused?'LANJUTKAN TIMER':'JEDA TIMER'}
+function judge(isCorrect){
+ if(locked||selected===null)return;clearInterval(timerId);locked=true;answered=true;
+ const right=selected===activeQuestion.c;const buttons=[...$('options').children];buttons.forEach((b,i)=>{b.disabled=true;if(i===activeQuestion.c)b.classList.add('correct');if(i===selected&&!right)b.classList.add('wrong')});
+ if(isCorrect&&right){scores[turn]+=currentRound().points;$('feedback').textContent=`Dinilai BENAR! ${teams[turn]} mendapat +${currentRound().points} poin.`}
+ else{$('feedback').textContent=right?'Jawaban tepat, tetapi juri memilih SALAH. Tidak ada poin.':'Dinilai SALAH. Jawaban yang benar ditandai hijau.'}
+ $('correctBtn').disabled=true;$('wrongBtn').disabled=true;$('nextBtn').disabled=false;updateBoard();
+}
+function revealAnswer(){[...$('options').children].forEach((b,i)=>{b.disabled=true;if(i===activeQuestion.c)b.classList.add('correct')})}
+function nextQuestion(){if(!locked)return;questionIndex++;loadQuestion()}
+function updateBoard(){
+ $('leaderboard').innerHTML=teams.map((t,i)=>`<div class="team-card"><div class="name">${escapeHtml(t)}</div><div class="score">${scores[i]}</div><div class="small">POIN</div></div>`).join('');
+}
+function finishGame(){
+ clearInterval(timerId);showScreen('result');updateBoard();
+ $('finalScores').innerHTML=teams.map((t,i)=>`<div class="team-card"><div class="name">${escapeHtml(t)}</div><div class="score">${scores[i]}</div><div class="small">POIN AKHIR</div></div>`).join('');
+ let msg;if(scores[0]===scores[1]){msg='Kedua regu memperoleh nilai yang sama.';$('winner').textContent='HASIL SERI';}
+ else{const w=scores[0]>scores[1]?0:1;msg=`${teams[w]} unggul dengan ${Math.abs(scores[0]-scores[1])} poin.`;$('winner').textContent=`JUARA: ${teams[w].toUpperCase()}`;}
+ $('resultMessage').textContent=msg;
+}
+function confirmExit(){if(confirm('Keluar dari pertandingan? Skor pertandingan saat ini akan dihapus.')){clearInterval(timerId);showScreen('home')}}
+</script>
+</body>
+</html>
